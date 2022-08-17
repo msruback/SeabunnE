@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#2ee99e</color>
+    <color name="colorPrimaryDark">#2acb8a</color>
+    <color name="colorPrimaryDarker">#21a670</color>
+    <color name="colorAccent">#ff4081</color>
+    <color name="colorAccentDark">#d13369</color>
+    <color name="colorAccentDarker">#9b274e</color>
+
+    <color name="offWhite">#e4e4e4</color>
+    <color name="offWhiteDark">#b1b1b1</color>
+    <color name="grey">#686868</color>
+    <color name="darkGrey">#292929</color>
+    <color name="transparentgrey">#5d9a9a9a</color>
+    <color name="transparentgrey2">#9e9a9a9a</color>
+    <color name="transparent">#00000000</color>
+    <color name="darkGreyTrans">#76242424</color>
+    <color name="transparentwhite">#72e8e8e8</color>
+    <color name="purpleTrans">#65B43FCF</color>
+
+    <!--Battles-->
+    <color name="turfPrimary">#19d719</color>
+    <color name="turfSecondary">#36e6f3</color>
+    <color name="turfTertiary">#80521192</color>
+    <color name="gachiPrimary">#f54910</color>
+    <color name="gachiSecondary">#aa00ff</color>
+    <color name="gachiTertiary">#8007b187</color>
+    <color name="leaguePrimary">#f02d7d</color>
+    <color name="leagueSecondary">#00cb07</color>
+    <color name="leagueTertiary">#800eb3c3</color>
+    <color name="salmonPrimary">#02a608</color>
+    <color name="salmonTertiary">#805a012b</color>
+
+</resources>
