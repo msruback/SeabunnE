@@ -5,7 +5,7 @@
 
         <variable
             name="TimePeriod"
-            type="com.beryl.seabunsource.data.splatnet2.TimePeriod" />
+            type="com.beryl.seabunne.data.splatnet2.battles.TimePeriod" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.beryl.seabunsource.ui.views.TimeRangeTextView
+        <com.beryl.seabunne.ui.views.TimeRangeTextView
             android:id="@+id/time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
             app:layout_constraintGuide_percent="0.5"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <com.beryl.seabunsource.ui.views.StageImageView
+        <com.beryl.seabunne.ui.views.StageImageView
             android:id="@+id/stageImage1"
             android:layout_width="0dp"
             android:layout_height="170dp"
@@ -51,7 +51,7 @@
             app:stageUrl="@{TimePeriod.stageA.image}"
             tools:src="@drawable/stage_1" />
 
-        <com.beryl.seabunsource.ui.views.FontTextView
+        <com.beryl.seabunne.ui.views.FontTextView
             android:id="@+id/stageName1"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -71,7 +71,7 @@
             app:fontType="subtitle"
             tools:text="The Reef" />
 
-        <com.beryl.seabunsource.ui.views.StageImageView
+        <com.beryl.seabunne.ui.views.StageImageView
             android:id="@+id/stageImage2"
             android:layout_width="0dp"
             android:layout_height="170dp"
@@ -84,7 +84,7 @@
             app:stageUrl="@{TimePeriod.stageB.image}"
             tools:src="@drawable/stage_2" />
 
-        <com.beryl.seabunsource.ui.views.FontTextView
+        <com.beryl.seabunne.ui.views.FontTextView
             android:id="@+id/stageName2"
             android:layout_width="0dp"
             android:layout_height="0dp"

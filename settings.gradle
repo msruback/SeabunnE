@@ -5,5 +5,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "SeabunSource"
+rootProject.name = "SeabunnE"
 include ':app'

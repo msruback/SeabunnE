@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/scheduleFragment"
-        android:name="com.beryl.seabunsource.ui.fragments.ScheduleFragment"
+        android:name="com.beryl.seabunne.ui.fragments.ScheduleFragment"
         android:label="fragment_schedule"
         tools:layout="@layout/fragment_schedule" />
 </navigation>
