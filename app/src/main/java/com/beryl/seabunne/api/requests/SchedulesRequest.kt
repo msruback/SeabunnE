@@ -1,6 +1,5 @@
 package com.beryl.seabunne.api.requests
 
-import android.util.Log
 import com.beryl.seabunne.data.database.SplatnetDatabase
 import com.beryl.seabunne.data.splatnet2.battles.Schedules
 import retrofit2.Response
@@ -13,26 +12,25 @@ class SchedulesRequest(private val database: SplatnetDatabase) : SplatnetRequest
     override suspend fun call(): Response<Schedules> = splatnet.getSchedules(cookie, uniqueId)
 
     override fun manageResponse(response: Response<Schedules>) {
-        val schedules = response.body()!!
-        schedules.regular.forEach {
+        val schedules = response.body()
+        schedules?.regular?.forEach {
             it.stow(database)
         }
-        schedules.ranked.forEach {
+        schedules?.ranked?.forEach {
             it.stow(database)
         }
-        schedules.league.forEach {
+        schedules?.league?.forEach {
             it.stow(database)
         }
     }
 
     //If there are less than 12 regular time periods that are current, update
     override fun shouldUpdate(): Boolean {
-        Log.d("ScheduleRequest", database.timePeriodDao().count().toString())
-        return if (database.timePeriodDao().count() == 0 || database.timePeriodDao()
-                .containsExpiredTimePeriods(Calendar.getInstance().timeInMillis / 1000)
+        val currentTime = Calendar.getInstance().timeInMillis / 1000
+        return if (database.timePeriodDao().countRegular() < 12 || database.timePeriodDao()
+                .containsExpiredTimePeriods(currentTime)
         ) {
-            database.timePeriodDao()
-                .deleteExpiredTimePeriods(Calendar.getInstance().timeInMillis / 1000)
+            database.timePeriodDao().deleteExpiredTimePeriods(currentTime)
             true
         } else {
             false

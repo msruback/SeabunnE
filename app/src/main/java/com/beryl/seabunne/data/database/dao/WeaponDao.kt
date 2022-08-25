@@ -10,21 +10,28 @@ interface WeaponDao {
     @Query("SELECT EXISTS(SELECT * FROM Weapons WHERE Id = :weaponId)")
     fun contains(weaponId: Int): Boolean
 
-    @Query("SELECT EXISTS(SELECT * FROM Weapons WHERE Id = :weaponId AND SpecialId = -1 AND SubId = -1)")
+    @Query("SELECT EXISTS(SELECT * FROM Weapons WHERE Id = :weaponId AND SpecialId IS NULL AND SubId IS NULL)")
     fun containsOnlySalmonInfo(weaponId: Int): Boolean
+
+    @Query("SELECT COUNT() FROM Weapons")
+    fun count(): Int
+
+    @Insert
+    fun insertAll(vararg weapons: WeaponEntity)
 
     @Query("SELECT SalmonRun FROM Weapons WHERE Id = :weaponId")
     fun isSalmonRunWeapon(weaponId: Int): Boolean
 
-    @Query("SELECT * FROM Weapons WHERE Id = :weaponId")
-    fun getWeaponEntity(weaponId: Int): WeaponEntity
+    @Transaction
+    @Query("SELECT * FROM Weapons")
+    fun selectAll(): List<WeaponWithSpecialAndSub>
 
     @Transaction
     @Query("SELECT * FROM Weapons WHERE SalmonRun")
-    fun getAllSalmonRunWeapons(): List<WeaponWithSpecialAndSub>
+    fun selectAllSalmonRunWeapons(): List<WeaponWithSpecialAndSub>
 
-    @Insert
-    fun insertAll(vararg weapons: WeaponEntity)
+    @Query("SELECT * FROM Weapons WHERE Id = :weaponId")
+    fun selectWeaponEntity(weaponId: Int): WeaponEntity
 
     @Update
     fun updateAll(vararg weapons: WeaponEntity)

@@ -10,19 +10,19 @@ import com.beryl.seabunne.data.database.entities.battles.TimePeriodStages
 import com.beryl.seabunne.data.database.entities.salmonRun.SalmonRunEntity
 import com.beryl.seabunne.data.database.entities.salmonRun.SalmonRunStageEntity
 import com.beryl.seabunne.data.database.entities.salmonRun.SalmonRunWeapons
-import com.beryl.seabunne.data.database.entities.userInfo.BrandEntity
-import com.beryl.seabunne.data.database.entities.userInfo.WeaponEntity
+import com.beryl.seabunne.data.database.entities.userInfo.*
 import com.beryl.seabunne.data.splatnet2.battles.entities.Stage
 import com.beryl.seabunne.data.splatnet2.userInfo.entities.Skill
 import com.beryl.seabunne.data.splatnet2.userInfo.entities.Special
 import com.beryl.seabunne.data.splatnet2.userInfo.entities.Sub
 
 @Database(
-    entities = [BrandEntity::class, SalmonRunEntity::class, SalmonRunStageEntity::class,
-        SalmonRunWeapons::class, Skill::class, Special::class, Stage::class, Sub::class,
-        TimePeriodEntity::class, TimePeriodStages::class, WeaponEntity::class],
+    entities = [BrandEntity::class, Clothes::class, Headgear::class, SalmonRunEntity::class,
+        SalmonRunStageEntity::class, SalmonRunWeapons::class, Shoes::class, Skill::class,
+        Special::class, Stage::class, Sub::class, TimePeriodEntity::class, TimePeriodStages::class,
+        WeaponEntity::class],
     version = 1,
-    exportSchema = false
+    exportSchema = true
 )
 abstract class SplatnetDatabase : RoomDatabase() {
 
@@ -48,11 +48,17 @@ abstract class SplatnetDatabase : RoomDatabase() {
 
     abstract fun brandDao(): BrandDao
 
+    abstract fun clothesDao(): ClothesDao
+
+    abstract fun headgearDao(): HeadgearDao
+
     abstract fun salmonRunWeaponsDao(): SalmonRunWeaponsDao
 
     abstract fun salmonRunDao(): SalmonRunDao
 
     abstract fun salmonRunStageDao(): SalmonRunStageDao
+
+    abstract fun shoesDao(): ShoesDao
 
     abstract fun skillDao(): SkillDao
 

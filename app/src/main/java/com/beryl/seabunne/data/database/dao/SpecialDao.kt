@@ -9,9 +9,12 @@ import com.beryl.seabunne.data.splatnet2.userInfo.entities.Special
 @Dao
 interface SpecialDao {
 
-    @Query("SELECT * FROM Specials")
-    fun selectAll(): List<Special>
-
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertAll(vararg specials: Special)
+
+    @Query("SELECT * FROM Specials WHERE Id = :specialId")
+    fun select(specialId: Int): Special
+
+    @Query("SELECT * FROM Specials")
+    fun selectAll(): List<Special>
 }

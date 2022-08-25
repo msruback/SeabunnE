@@ -15,7 +15,7 @@ data class Brand(
     @SerializedName("frequent_skill") val preferredSkill: Skill
 ) : Parcelable {
 
-    private fun toRoom(): BrandEntity = BrandEntity(id, name, image, preferredSkill.id)
+    fun toRoom(): BrandEntity = BrandEntity(id, name, image, preferredSkill.id)
 
     fun stow(database: SplatnetDatabase) {
         database.skillDao().insertAll(preferredSkill)

@@ -8,7 +8,8 @@ import com.beryl.seabunne.data.splatnet2.userInfo.Brand
 import com.beryl.seabunne.data.splatnet2.userInfo.entities.Skill
 
 data class BrandWithSkill(
-    @Embedded val brand: BrandEntity, @Relation(
+    @Embedded val brand: BrandEntity,
+    @Relation(
         entity = Skill::class,
         parentColumn = "SkillId",
         entityColumn = "Id"

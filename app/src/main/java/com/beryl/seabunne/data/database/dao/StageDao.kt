@@ -9,13 +9,16 @@ import com.beryl.seabunne.data.splatnet2.battles.entities.Stage
 @Dao
 interface StageDao {
 
-    @Query("SELECT EXISTS (SELECT * FROM Stages WHERE Id LIKE :stageId)")
+    @Query("SELECT EXISTS (SELECT * FROM Stages WHERE Id = :stageId)")
     fun contains(stageId: Int): Boolean
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertAll(vararg stages: Stage)
 
+    @Query("SELECT * FROM Stages WHERE Id = :stageId")
+    fun select(stageId: Int): Stage
+
     @Query("SELECT * FROM Stages")
-    fun getAll(): List<Stage>
+    fun selectAll(): List<Stage>
 
 }

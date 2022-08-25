@@ -9,4 +9,5 @@ interface TimePeriodStagesDao {
 
     @Insert
     fun insertAll(vararg timePeriodStages: TimePeriodStages)
+
 }

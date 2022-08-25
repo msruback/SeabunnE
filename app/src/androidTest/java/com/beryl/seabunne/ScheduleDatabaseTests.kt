@@ -34,19 +34,9 @@ class ScheduleDatabaseTests : DatabaseTest() {
 
         val stowedTimePeriod = splatnetDatabase.timePeriodDao().selectRegularTest()[0]
 
-        Assert.assertEquals(timePeriod.id, stowedTimePeriod.timePeriodData.id)
-        Assert.assertEquals(timePeriod.gameMode, stowedTimePeriod.timePeriodData.gameMode)
-        Assert.assertEquals(timePeriod.rule, stowedTimePeriod.timePeriodData.rule)
-        Assert.assertEquals(timePeriod.start, stowedTimePeriod.timePeriodData.start)
-        Assert.assertEquals(timePeriod.end, stowedTimePeriod.timePeriodData.end)
-
-        Assert.assertEquals(stage1.id, stowedTimePeriod.stages[0].id)
-        Assert.assertEquals(stage1.name, stowedTimePeriod.stages[0].name)
-        Assert.assertEquals(stage1.image, stowedTimePeriod.stages[0].image)
-
-        Assert.assertEquals(stage2.id, stowedTimePeriod.stages[1].id)
-        Assert.assertEquals(stage2.name, stowedTimePeriod.stages[1].name)
-        Assert.assertEquals(stage2.image, stowedTimePeriod.stages[1].image)
+        Assert.assertEquals(timePeriod, stowedTimePeriod.timePeriodData)
+        Assert.assertEquals(stage1, stowedTimePeriod.stages[0])
+        Assert.assertEquals(stage2, stowedTimePeriod.stages[1])
 
     }
 
@@ -65,18 +55,9 @@ class ScheduleDatabaseTests : DatabaseTest() {
 
         val stowedTimePeriod = splatnetDatabase.timePeriodDao().selectRegularTest()[0]
 
-        Assert.assertEquals(timePeriod.gameMode.key, stowedTimePeriod.timePeriodData.gameMode)
-        Assert.assertEquals(timePeriod.rule.key, stowedTimePeriod.timePeriodData.rule)
-        Assert.assertEquals(timePeriod.start, stowedTimePeriod.timePeriodData.start)
-        Assert.assertEquals(timePeriod.end, stowedTimePeriod.timePeriodData.end)
-
-        Assert.assertEquals(stage1.id, stowedTimePeriod.stages[0].id)
-        Assert.assertEquals(stage1.name, stowedTimePeriod.stages[0].name)
-        Assert.assertEquals(stage1.image, stowedTimePeriod.stages[0].image)
-
-        Assert.assertEquals(stage2.id, stowedTimePeriod.stages[1].id)
-        Assert.assertEquals(stage2.name, stowedTimePeriod.stages[1].name)
-        Assert.assertEquals(stage2.image, stowedTimePeriod.stages[1].image)
+        Assert.assertEquals(timePeriod.toRoom(), stowedTimePeriod.timePeriodData)
+        Assert.assertEquals(stage1, stowedTimePeriod.stages[0])
+        Assert.assertEquals(stage2, stowedTimePeriod.stages[1])
     }
 
     @Test
@@ -85,10 +66,8 @@ class ScheduleDatabaseTests : DatabaseTest() {
 
         splatnetDatabase.stageDao().insertAll(stage)
 
-        val storedStage = splatnetDatabase.stageDao().getAll()[0]
+        val storedStage = splatnetDatabase.stageDao().selectAll()[0]
 
-        Assert.assertEquals(stage.id, storedStage.id)
-        Assert.assertEquals(stage.name, storedStage.name)
-        Assert.assertEquals(stage.image, storedStage.image)
+        Assert.assertEquals(stage, storedStage)
     }
 }

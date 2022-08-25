@@ -20,11 +20,11 @@ data class Weapon(
 
     fun toSalmonRunWeapon(): SalmonRunWeapon = SalmonRunWeapon(id, this)
 
-    private fun toRoom(isSalmonRun: Boolean): WeaponEntity {
+    fun toRoom(isSalmonRun: Boolean): WeaponEntity {
         return if (special != null && sub != null) {
             WeaponEntity(id, name, image, special.id, sub.id, isSalmonRun)
         } else {
-            WeaponEntity(id, name, image, -1, -1, isSalmonRun)
+            WeaponEntity(id, name, image, null, null, isSalmonRun)
         }
     }
 
@@ -42,7 +42,7 @@ data class Weapon(
             database.subDao().insertAll(sub)
             database.weaponDao().updateAll(toRoom(true))
         } else if (!database.weaponDao().isSalmonRunWeapon(id) && isSalmonRun) {
-            val toStow = database.weaponDao().getWeaponEntity(id)
+            val toStow = database.weaponDao().selectWeaponEntity(id)
             toStow.isSalmonRun = true
             database.weaponDao().updateAll(toStow)
         }

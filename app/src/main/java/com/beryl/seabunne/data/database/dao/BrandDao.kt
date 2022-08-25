@@ -7,8 +7,14 @@ import com.beryl.seabunne.data.database.entities.userInfo.BrandWithSkill
 @Dao
 interface BrandDao {
 
+    @Query("SELECT COUNT() FROM Brands")
+    fun count(): Int
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertAll(vararg brands: BrandEntity)
+
+    @Query("SELECT * FROM Brands WHERE Id = :brandId")
+    fun select(brandId: Int): BrandEntity
 
     @Transaction
     @Query("SELECT * FROM Brands")

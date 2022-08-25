@@ -13,11 +13,11 @@ data class WeaponWithSpecialAndSub(
     @Relation(
         parentColumn = "SpecialId",
         entityColumn = "Id"
-    ) val special: Special,
+    ) val special: Special?,
     @Relation(
         parentColumn = "SubId",
         entityColumn = "Id"
-    ) val sub: Sub
+    ) val sub: Sub?
 ) : SplatnetTransformer<Weapon> {
     override fun toSplatnet(context: Context): Weapon = weapon.toSplatnet(special, sub)
 }

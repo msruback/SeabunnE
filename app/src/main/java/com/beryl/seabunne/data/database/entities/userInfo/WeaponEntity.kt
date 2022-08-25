@@ -28,12 +28,12 @@ data class WeaponEntity(
     @PrimaryKey @ColumnInfo(name = "Id") val id: Int,
     @ColumnInfo(name = "Name") val name: String,
     @ColumnInfo(name = "Image") val image: String,
-    @ColumnInfo(name = "SpecialId") val special: Int,
-    @ColumnInfo(name = "SubId") val sub: Int,
-    @ColumnInfo(name = "SalmonRun") var isSalmonRun: Boolean
+    @ColumnInfo(name = "SpecialId") val special: Int? = null,
+    @ColumnInfo(name = "SubId") val sub: Int? = null,
+    @ColumnInfo(name = "SalmonRun") var isSalmonRun: Boolean = false
 ) {
 
-    fun toSplatnet(special: Special, sub: Sub): Weapon {
-        return Weapon(id, name, image, special, sub)
-    }
+    fun toSplatnet(special: Special? = null, sub: Sub? = null): Weapon =
+        Weapon(id, name, image, special, sub)
+
 }
