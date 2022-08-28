@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="Shift"
+            type="com.beryl.seabunne.data.splatnet2.salmonRun.SalmonRun" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:background="@color/salmonTertiary">
+
+        <com.beryl.seabunne.ui.views.TimeRangeTextView
+            android:id="@+id/time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="20dp"
+            android:gravity="center"
+            android:textColor="@color/offWhite"
+            android:textSize="20sp"
+            app:end="@{Shift.end}"
+            app:fontType="subtitle"
+            app:includeDate="true"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:start="@{Shift.start}" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

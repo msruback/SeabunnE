@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <declare-styleable name="FontTextView">
+        <attr name="fontType" format="enum">
+            <enum name="title" value="0" />
+            <enum name="subtitle" value="1" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="GearImageView">
+        <attr name="gearName" format="string" />
+        <attr name="gearUrl" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="SalmonWeaponImageView">
+        <attr name="weaponType" format="string" />
+    </declare-styleable>
+
     <declare-styleable name="StageImageView">
         <attr name="stageName" format="string" />
         <attr name="stageUrl" format="string" />
@@ -8,12 +24,11 @@
     <declare-styleable name="TimeRangeTextView">
         <attr name="start" format="integer" />
         <attr name="end" format="integer" />
+        <attr name="includeDate" format="boolean" />
     </declare-styleable>
 
-    <declare-styleable name="FontTextView">
-        <attr name="fontType" format="enum">
-            <enum name="title" value="0" />
-            <enum name="subtitle" value="1" />
-        </attr>
+    <declare-styleable name="WeaponImageView">
+        <attr name="weaponName" format="string" />
+        <attr name="weaponUrl" format="string" />
     </declare-styleable>
 </resources>

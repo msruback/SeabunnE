@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import com.beryl.seabunne.R
 
 
-class BattleListFragment : Fragment() {
+class BattleResultsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +27,7 @@ class BattleListFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance() =
-            BattleListFragment().apply {
+            BattleResultsFragment().apply {
                 arguments = Bundle().apply {}
             }
     }

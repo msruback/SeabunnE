@@ -3,21 +3,45 @@ package com.beryl.seabunne
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.beryl.seabunne.data.database.entities.salmonRun.SalmonRunEntity
 import com.beryl.seabunne.data.database.entities.salmonRun.SalmonRunStageEntity
-import com.beryl.seabunne.data.database.entities.salmonRun.SalmonRunWeapons
-import com.beryl.seabunne.data.database.entities.userInfo.*
+import com.beryl.seabunne.data.database.entities.salmonRun.SalmonRunWeaponEntity
+import com.beryl.seabunne.data.database.entities.userInfo.BrandEntity
+import com.beryl.seabunne.data.database.entities.userInfo.Clothes
+import com.beryl.seabunne.data.database.entities.userInfo.Headgear
+import com.beryl.seabunne.data.database.entities.userInfo.Shoes
 import com.beryl.seabunne.data.splatnet2.salmonRun.SalmonRun
 import com.beryl.seabunne.data.splatnet2.salmonRun.SalmonRunStage
 import com.beryl.seabunne.data.splatnet2.userInfo.Brand
 import com.beryl.seabunne.data.splatnet2.userInfo.Gear
 import com.beryl.seabunne.data.splatnet2.userInfo.Weapon
 import com.beryl.seabunne.data.splatnet2.userInfo.entities.Skill
+import com.beryl.seabunne.testObjects.SalmonRunWeaponList
 import org.junit.Assert
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.*
 
 @RunWith(AndroidJUnit4::class)
 class SalmonRunDatabaseTests : DatabaseTest() {
+
+    private var startTime: Long = -1
+    private var endTime: Long = -1
+    private lateinit var salmonRunNormalWeapons: SalmonRunWeaponList
+
+    @Before
+    fun test_createTestData() {
+        startTime = Date().time / 1000
+        endTime = startTime + 7200
+        salmonRunNormalWeapons = SalmonRunWeaponList(
+            listOf(
+                Weapon(0, "Test Weapon 1", "url").toSalmonRunWeapon(),
+                Weapon(1, "Test Weapon 2", "url").toSalmonRunWeapon(),
+                Weapon(2, "Test Weapon 3", "url").toSalmonRunWeapon(),
+                Weapon(3, "Test Weapon 4", "url").toSalmonRunWeapon()
+            ),
+            startTime
+        )
+    }
 
     @Test
     fun test_salmonRunStageInsert() {
@@ -43,37 +67,29 @@ class SalmonRunDatabaseTests : DatabaseTest() {
 
     @Test
     fun test_salmonRunInsert() {
-        val startTime = Date().time / 1000
-        val endTime = startTime + 7200
         val salmonStage = SalmonRunStageEntity(0, "Test Stage", "url")
         val salmonRun = SalmonRunEntity(startTime, endTime, 0)
 
-        val weapons = listOf(
-            WeaponEntity(0, "Test Weapon 1", "url", isSalmonRun = true),
-            WeaponEntity(1, "Test Weapon 2", "url", isSalmonRun = true),
-            WeaponEntity(2, "Test Weapon 3", "url", isSalmonRun = true),
-            WeaponEntity(3, "Test Weapon 4", "url", isSalmonRun = true)
-        )
+        val weapons = salmonRunNormalWeapons.weaponEntities
 
         splatnetDatabase.salmonRunStageDao().insertAll(salmonStage)
 
         splatnetDatabase.salmonRunDao().insertAll(salmonRun)
         weapons.forEach {
             splatnetDatabase.weaponDao().insertAll(it)
-            splatnetDatabase.salmonRunWeaponsDao().insertAll(SalmonRunWeapons(startTime, it.id))
+            splatnetDatabase.salmonRunWeaponsDao()
+                .insertAll(SalmonRunWeaponEntity(startTime, weapons.indexOf(it), "normal", it.id))
         }
 
         val storedRun = splatnetDatabase.salmonRunDao().selectAllTest()[0]
 
         Assert.assertEquals(salmonRun, storedRun.salmonRun)
         Assert.assertEquals(salmonStage, storedRun.salmonRunStage)
-        Assert.assertEquals(weapons, storedRun.weapons)
+        Assert.assertEquals(salmonRunNormalWeapons.salmonRunWeaponPojos, storedRun.weapons)
     }
 
     @Test
     fun test_basicSalmonStow() {
-        val startTime = Date().time / 1000
-        val endTime = startTime + 7200
         val salmonRun = SalmonRun(startTime, endTime)
         salmonRun.stow(splatnetDatabase)
 
@@ -84,27 +100,15 @@ class SalmonRunDatabaseTests : DatabaseTest() {
 
     @Test
     fun test_extendedSalmonStow() {
-        val startTime = Date().time / 1000
-        val endTime = startTime + 7200
         val salmonStage = SalmonRunStage("Spawning Grounds", "url")
-        val weapons = listOf(
-            Weapon(0, "Test Weapon 1", "url").toSalmonRunWeapon(),
-            Weapon(1, "Test Weapon 2", "url").toSalmonRunWeapon(),
-            Weapon(2, "Test Weapon 3", "url").toSalmonRunWeapon(),
-            Weapon(3, "Test Weapon 4", "url").toSalmonRunWeapon()
-        )
+        val weapons = salmonRunNormalWeapons.salmonRunWeapons
 
         val salmonRun = SalmonRun(startTime, endTime, salmonStage, weapons)
         salmonRun.stow(splatnetDatabase)
 
         val storedRun = splatnetDatabase.salmonRunDao().selectAllTest()[0]
 
-        val expectedWeapons = listOf(
-            WeaponEntity(0, "Test Weapon 1", "url", isSalmonRun = true),
-            WeaponEntity(1, "Test Weapon 2", "url", isSalmonRun = true),
-            WeaponEntity(2, "Test Weapon 3", "url", isSalmonRun = true),
-            WeaponEntity(3, "Test Weapon 4", "url", isSalmonRun = true)
-        )
+        val expectedWeapons = salmonRunNormalWeapons.salmonRunWeaponPojos
 
         Assert.assertEquals(salmonRun.toRoom(), storedRun.salmonRun)
         Assert.assertEquals(salmonStage.toRoom(), storedRun.salmonRunStage)
@@ -113,15 +117,8 @@ class SalmonRunDatabaseTests : DatabaseTest() {
 
     @Test
     fun test_extendedSalmonUpdated() {
-        val startTime = Date().time / 1000
-        val endTime = startTime + 7200
         val salmonStage = SalmonRunStage("Spawning Grounds", "url")
-        val weapons = listOf(
-            Weapon(0, "Test Weapon 1", "url").toSalmonRunWeapon(),
-            Weapon(1, "Test Weapon 2", "url").toSalmonRunWeapon(),
-            Weapon(2, "Test Weapon 3", "url").toSalmonRunWeapon(),
-            Weapon(3, "Test Weapon 4", "url").toSalmonRunWeapon()
-        )
+        val weapons = salmonRunNormalWeapons.salmonRunWeapons
 
         var salmonRun = SalmonRun(startTime, endTime)
         salmonRun.stow(splatnetDatabase)
@@ -131,12 +128,7 @@ class SalmonRunDatabaseTests : DatabaseTest() {
 
         val storedRun = splatnetDatabase.salmonRunDao().selectAllTest()[0]
 
-        val expectedWeapons = listOf(
-            WeaponEntity(0, "Test Weapon 1", "url", isSalmonRun = true),
-            WeaponEntity(1, "Test Weapon 2", "url", isSalmonRun = true),
-            WeaponEntity(2, "Test Weapon 3", "url", isSalmonRun = true),
-            WeaponEntity(3, "Test Weapon 4", "url", isSalmonRun = true)
-        )
+        val expectedWeapons = salmonRunNormalWeapons.salmonRunWeaponPojos
 
         Assert.assertEquals(salmonRun.toRoom(), storedRun.salmonRun)
         Assert.assertEquals(salmonStage.toRoom(), storedRun.salmonRunStage)
@@ -146,15 +138,9 @@ class SalmonRunDatabaseTests : DatabaseTest() {
 
     @Test
     fun test_currentSalmonHeadgearStow() {
-        val startTime = Date().time / 1000
-        val endTime = startTime + 7200
         val salmonStage = SalmonRunStage("Spawning Grounds", "url")
-        val weapons = listOf(
-            Weapon(0, "Test Weapon 1", "url").toSalmonRunWeapon(),
-            Weapon(1, "Test Weapon 2", "url").toSalmonRunWeapon(),
-            Weapon(2, "Test Weapon 3", "url").toSalmonRunWeapon(),
-            Weapon(3, "Test Weapon 4", "url").toSalmonRunWeapon()
-        )
+        val weapons = salmonRunNormalWeapons.salmonRunWeapons
+
         val skill = Skill(0, "Skill", "url")
         val brand = Brand(0, "Brand", "url", skill)
         val gear = Gear(0, "head", "hat", 1, "url", brand)
@@ -164,12 +150,7 @@ class SalmonRunDatabaseTests : DatabaseTest() {
 
         val storedRun = splatnetDatabase.salmonRunDao().selectAllTest()[0]
 
-        val expectedWeapons = listOf(
-            WeaponEntity(0, "Test Weapon 1", "url", isSalmonRun = true),
-            WeaponEntity(1, "Test Weapon 2", "url", isSalmonRun = true),
-            WeaponEntity(2, "Test Weapon 3", "url", isSalmonRun = true),
-            WeaponEntity(3, "Test Weapon 4", "url", isSalmonRun = true)
-        )
+        val expectedWeapons = salmonRunNormalWeapons.salmonRunWeaponPojos
 
         Assert.assertEquals(salmonRun.toRoom(), storedRun.salmonRun)
         Assert.assertEquals(salmonStage.toRoom(), storedRun.salmonRunStage)
@@ -181,15 +162,8 @@ class SalmonRunDatabaseTests : DatabaseTest() {
 
     @Test
     fun test_currentSalmonHeadgearUpdate() {
-        val startTime = Date().time / 1000
-        val endTime = startTime + 7200
         val salmonStage = SalmonRunStage("Spawning Grounds", "url")
-        val weapons = listOf(
-            Weapon(0, "Test Weapon 1", "url").toSalmonRunWeapon(),
-            Weapon(1, "Test Weapon 2", "url").toSalmonRunWeapon(),
-            Weapon(2, "Test Weapon 3", "url").toSalmonRunWeapon(),
-            Weapon(3, "Test Weapon 4", "url").toSalmonRunWeapon()
-        )
+        val weapons = salmonRunNormalWeapons.salmonRunWeapons
         val skill = Skill(0, "Skill", "url")
         val brand = Brand(0, "Brand", "url", skill)
         val gear = Gear(0, "head", "hat", 1, "url", brand)
@@ -202,12 +176,7 @@ class SalmonRunDatabaseTests : DatabaseTest() {
 
         val storedRun = splatnetDatabase.salmonRunDao().selectAllTest()[0]
 
-        val expectedWeapons = listOf(
-            WeaponEntity(0, "Test Weapon 1", "url", isSalmonRun = true),
-            WeaponEntity(1, "Test Weapon 2", "url", isSalmonRun = true),
-            WeaponEntity(2, "Test Weapon 3", "url", isSalmonRun = true),
-            WeaponEntity(3, "Test Weapon 4", "url", isSalmonRun = true)
-        )
+        val expectedWeapons = salmonRunNormalWeapons.salmonRunWeaponPojos
 
         Assert.assertEquals(salmonRun.toRoom(), storedRun.salmonRun)
         Assert.assertEquals(salmonStage.toRoom(), storedRun.salmonRunStage)
@@ -219,15 +188,8 @@ class SalmonRunDatabaseTests : DatabaseTest() {
 
     @Test
     fun test_currentSalmonHeadgearUpdateWithStageAndWeapons() {
-        val startTime = Date().time / 1000
-        val endTime = startTime + 7200
         val salmonStage = SalmonRunStage("Spawning Grounds", "url")
-        val weapons = listOf(
-            Weapon(0, "Test Weapon 1", "url").toSalmonRunWeapon(),
-            Weapon(1, "Test Weapon 2", "url").toSalmonRunWeapon(),
-            Weapon(2, "Test Weapon 3", "url").toSalmonRunWeapon(),
-            Weapon(3, "Test Weapon 4", "url").toSalmonRunWeapon()
-        )
+        val weapons = salmonRunNormalWeapons.salmonRunWeapons
         val skill = Skill(0, "Skill", "url")
         val brand = Brand(0, "Brand", "url", skill)
         val gear = Gear(0, "head", "hat", 1, "url", brand)
@@ -240,12 +202,7 @@ class SalmonRunDatabaseTests : DatabaseTest() {
 
         val storedRun = splatnetDatabase.salmonRunDao().selectAllTest()[0]
 
-        val expectedWeapons = listOf(
-            WeaponEntity(0, "Test Weapon 1", "url", isSalmonRun = true),
-            WeaponEntity(1, "Test Weapon 2", "url", isSalmonRun = true),
-            WeaponEntity(2, "Test Weapon 3", "url", isSalmonRun = true),
-            WeaponEntity(3, "Test Weapon 4", "url", isSalmonRun = true)
-        )
+        val expectedWeapons = salmonRunNormalWeapons.salmonRunWeaponPojos
 
         Assert.assertEquals(salmonRun.toRoom(), storedRun.salmonRun)
         Assert.assertEquals(salmonStage.toRoom(), storedRun.salmonRunStage)
@@ -257,15 +214,8 @@ class SalmonRunDatabaseTests : DatabaseTest() {
 
     @Test
     fun test_currentSalmonClothesStow() {
-        val startTime = Date().time / 1000
-        val endTime = startTime + 7200
         val salmonStage = SalmonRunStage("Spawning Grounds", "url")
-        val weapons = listOf(
-            Weapon(0, "Test Weapon 1", "url").toSalmonRunWeapon(),
-            Weapon(1, "Test Weapon 2", "url").toSalmonRunWeapon(),
-            Weapon(2, "Test Weapon 3", "url").toSalmonRunWeapon(),
-            Weapon(3, "Test Weapon 4", "url").toSalmonRunWeapon()
-        )
+        val weapons = salmonRunNormalWeapons.salmonRunWeapons
         val skill = Skill(0, "Skill", "url")
         val brand = Brand(0, "Brand", "url", skill)
         val gear = Gear(0, "clothes", "hat", 1, "url", brand)
@@ -275,12 +225,7 @@ class SalmonRunDatabaseTests : DatabaseTest() {
 
         val storedRun = splatnetDatabase.salmonRunDao().selectAllTest()[0]
 
-        val expectedWeapons = listOf(
-            WeaponEntity(0, "Test Weapon 1", "url", isSalmonRun = true),
-            WeaponEntity(1, "Test Weapon 2", "url", isSalmonRun = true),
-            WeaponEntity(2, "Test Weapon 3", "url", isSalmonRun = true),
-            WeaponEntity(3, "Test Weapon 4", "url", isSalmonRun = true)
-        )
+        val expectedWeapons = salmonRunNormalWeapons.salmonRunWeaponPojos
 
         Assert.assertEquals(salmonRun.toRoom(), storedRun.salmonRun)
         Assert.assertEquals(salmonStage.toRoom(), storedRun.salmonRunStage)
@@ -292,15 +237,8 @@ class SalmonRunDatabaseTests : DatabaseTest() {
 
     @Test
     fun test_currentSalmonClothesUpdate() {
-        val startTime = Date().time / 1000
-        val endTime = startTime + 7200
         val salmonStage = SalmonRunStage("Spawning Grounds", "url")
-        val weapons = listOf(
-            Weapon(0, "Test Weapon 1", "url").toSalmonRunWeapon(),
-            Weapon(1, "Test Weapon 2", "url").toSalmonRunWeapon(),
-            Weapon(2, "Test Weapon 3", "url").toSalmonRunWeapon(),
-            Weapon(3, "Test Weapon 4", "url").toSalmonRunWeapon()
-        )
+        val weapons = salmonRunNormalWeapons.salmonRunWeapons
         val skill = Skill(0, "Skill", "url")
         val brand = Brand(0, "Brand", "url", skill)
         val gear = Gear(0, "clothes", "hat", 1, "url", brand)
@@ -314,12 +252,7 @@ class SalmonRunDatabaseTests : DatabaseTest() {
         val storedRun = splatnetDatabase.salmonRunDao().selectAllTest()[0]
 
 
-        val expectedWeapons = listOf(
-            WeaponEntity(0, "Test Weapon 1", "url", isSalmonRun = true),
-            WeaponEntity(1, "Test Weapon 2", "url", isSalmonRun = true),
-            WeaponEntity(2, "Test Weapon 3", "url", isSalmonRun = true),
-            WeaponEntity(3, "Test Weapon 4", "url", isSalmonRun = true)
-        )
+        val expectedWeapons = salmonRunNormalWeapons.salmonRunWeaponPojos
 
         Assert.assertEquals(salmonRun.toRoom(), storedRun.salmonRun)
         Assert.assertEquals(salmonStage.toRoom(), storedRun.salmonRunStage)
@@ -331,15 +264,8 @@ class SalmonRunDatabaseTests : DatabaseTest() {
 
     @Test
     fun test_currentSalmonClothesUpdateWithStageAndWeapons() {
-        val startTime = Date().time / 1000
-        val endTime = startTime + 7200
         val salmonStage = SalmonRunStage("Spawning Grounds", "url")
-        val weapons = listOf(
-            Weapon(0, "Test Weapon 1", "url").toSalmonRunWeapon(),
-            Weapon(1, "Test Weapon 2", "url").toSalmonRunWeapon(),
-            Weapon(2, "Test Weapon 3", "url").toSalmonRunWeapon(),
-            Weapon(3, "Test Weapon 4", "url").toSalmonRunWeapon()
-        )
+        val weapons = salmonRunNormalWeapons.salmonRunWeapons
         val skill = Skill(0, "Skill", "url")
         val brand = Brand(0, "Brand", "url", skill)
         val gear = Gear(0, "clothes", "hat", 1, "url", brand)
@@ -353,12 +279,7 @@ class SalmonRunDatabaseTests : DatabaseTest() {
         val storedRun = splatnetDatabase.salmonRunDao().selectAllTest()[0]
 
 
-        val expectedWeapons = listOf(
-            WeaponEntity(0, "Test Weapon 1", "url", isSalmonRun = true),
-            WeaponEntity(1, "Test Weapon 2", "url", isSalmonRun = true),
-            WeaponEntity(2, "Test Weapon 3", "url", isSalmonRun = true),
-            WeaponEntity(3, "Test Weapon 4", "url", isSalmonRun = true)
-        )
+        val expectedWeapons = salmonRunNormalWeapons.salmonRunWeaponPojos
 
         Assert.assertEquals(salmonRun.toRoom(), storedRun.salmonRun)
         Assert.assertEquals(salmonStage.toRoom(), storedRun.salmonRunStage)
@@ -370,15 +291,8 @@ class SalmonRunDatabaseTests : DatabaseTest() {
 
     @Test
     fun test_currentSalmonShoesStow() {
-        val startTime = Date().time / 1000
-        val endTime = startTime + 7200
         val salmonStage = SalmonRunStage("Spawning Grounds", "url")
-        val weapons = listOf(
-            Weapon(0, "Test Weapon 1", "url").toSalmonRunWeapon(),
-            Weapon(1, "Test Weapon 2", "url").toSalmonRunWeapon(),
-            Weapon(2, "Test Weapon 3", "url").toSalmonRunWeapon(),
-            Weapon(3, "Test Weapon 4", "url").toSalmonRunWeapon()
-        )
+        val weapons = salmonRunNormalWeapons.salmonRunWeapons
         val skill = Skill(0, "Skill", "url")
         val brand = Brand(0, "Brand", "url", skill)
         val gear = Gear(0, "shoes", "hat", 1, "url", brand)
@@ -388,12 +302,7 @@ class SalmonRunDatabaseTests : DatabaseTest() {
 
         val storedRun = splatnetDatabase.salmonRunDao().selectAllTest()[0]
 
-        val expectedWeapons = listOf(
-            WeaponEntity(0, "Test Weapon 1", "url", isSalmonRun = true),
-            WeaponEntity(1, "Test Weapon 2", "url", isSalmonRun = true),
-            WeaponEntity(2, "Test Weapon 3", "url", isSalmonRun = true),
-            WeaponEntity(3, "Test Weapon 4", "url", isSalmonRun = true)
-        )
+        val expectedWeapons = salmonRunNormalWeapons.salmonRunWeaponPojos
 
         Assert.assertEquals(salmonRun.toRoom(), storedRun.salmonRun)
         Assert.assertEquals(salmonStage.toRoom(), storedRun.salmonRunStage)
@@ -405,15 +314,8 @@ class SalmonRunDatabaseTests : DatabaseTest() {
 
     @Test
     fun test_currentSalmonShoesUpdate() {
-        val startTime = Date().time / 1000
-        val endTime = startTime + 7200
         val salmonStage = SalmonRunStage("Spawning Grounds", "url")
-        val weapons = listOf(
-            Weapon(0, "Test Weapon 1", "url").toSalmonRunWeapon(),
-            Weapon(1, "Test Weapon 2", "url").toSalmonRunWeapon(),
-            Weapon(2, "Test Weapon 3", "url").toSalmonRunWeapon(),
-            Weapon(3, "Test Weapon 4", "url").toSalmonRunWeapon()
-        )
+        val weapons = salmonRunNormalWeapons.salmonRunWeapons
         val skill = Skill(0, "Skill", "url")
         val brand = Brand(0, "Brand", "url", skill)
         val gear = Gear(0, "shoes", "hat", 1, "url", brand)
@@ -426,12 +328,7 @@ class SalmonRunDatabaseTests : DatabaseTest() {
 
         val storedRun = splatnetDatabase.salmonRunDao().selectAllTest()[0]
 
-        val expectedWeapons = listOf(
-            WeaponEntity(0, "Test Weapon 1", "url", isSalmonRun = true),
-            WeaponEntity(1, "Test Weapon 2", "url", isSalmonRun = true),
-            WeaponEntity(2, "Test Weapon 3", "url", isSalmonRun = true),
-            WeaponEntity(3, "Test Weapon 4", "url", isSalmonRun = true)
-        )
+        val expectedWeapons = salmonRunNormalWeapons.salmonRunWeaponPojos
 
         Assert.assertEquals(salmonRun.toRoom(), storedRun.salmonRun)
         Assert.assertEquals(salmonStage.toRoom(), storedRun.salmonRunStage)
@@ -443,15 +340,8 @@ class SalmonRunDatabaseTests : DatabaseTest() {
 
     @Test
     fun test_currentSalmonShoesUpdateWithStageAndWeapons() {
-        val startTime = Date().time / 1000
-        val endTime = startTime + 7200
         val salmonStage = SalmonRunStage("Spawning Grounds", "url")
-        val weapons = listOf(
-            Weapon(0, "Test Weapon 1", "url").toSalmonRunWeapon(),
-            Weapon(1, "Test Weapon 2", "url").toSalmonRunWeapon(),
-            Weapon(2, "Test Weapon 3", "url").toSalmonRunWeapon(),
-            Weapon(3, "Test Weapon 4", "url").toSalmonRunWeapon()
-        )
+        val weapons = salmonRunNormalWeapons.salmonRunWeapons
         val skill = Skill(0, "Skill", "url")
         val brand = Brand(0, "Brand", "url", skill)
         val gear = Gear(0, "shoes", "hat", 1, "url", brand)
@@ -464,12 +354,7 @@ class SalmonRunDatabaseTests : DatabaseTest() {
 
         val storedRun = splatnetDatabase.salmonRunDao().selectAllTest()[0]
 
-        val expectedWeapons = listOf(
-            WeaponEntity(0, "Test Weapon 1", "url", isSalmonRun = true),
-            WeaponEntity(1, "Test Weapon 2", "url", isSalmonRun = true),
-            WeaponEntity(2, "Test Weapon 3", "url", isSalmonRun = true),
-            WeaponEntity(3, "Test Weapon 4", "url", isSalmonRun = true)
-        )
+        val expectedWeapons = salmonRunNormalWeapons.salmonRunWeaponPojos
 
         Assert.assertEquals(salmonRun.toRoom(), storedRun.salmonRun)
         Assert.assertEquals(salmonStage.toRoom(), storedRun.salmonRunStage)
@@ -520,12 +405,7 @@ class SalmonRunDatabaseTests : DatabaseTest() {
 
         val salmonRun = SalmonRunEntity(startTime, endTime, 0, 0, 0, 0)
 
-        val weapons = listOf(
-            WeaponEntity(0, "Test Weapon 1", "url", isSalmonRun = true),
-            WeaponEntity(1, "Test Weapon 2", "url", isSalmonRun = true),
-            WeaponEntity(2, "Test Weapon 3", "url", isSalmonRun = true),
-            WeaponEntity(3, "Test Weapon 4", "url", isSalmonRun = true)
-        )
+        val weapons = salmonRunNormalWeapons.weaponEntities
 
         splatnetDatabase.skillDao().insertAll(skill)
         splatnetDatabase.brandDao().insertAll(brand)
@@ -538,7 +418,8 @@ class SalmonRunDatabaseTests : DatabaseTest() {
         splatnetDatabase.salmonRunDao().insertAll(salmonRun)
         weapons.forEach {
             splatnetDatabase.weaponDao().insertAll(it)
-            splatnetDatabase.salmonRunWeaponsDao().insertAll(SalmonRunWeapons(startTime, it.id))
+            splatnetDatabase.salmonRunWeaponsDao()
+                .insertAll(SalmonRunWeaponEntity(startTime, weapons.indexOf(it), "normal", it.id))
         }
 
         splatnetDatabase.salmonRunDao().deleteExpiredRuns(currentTime)

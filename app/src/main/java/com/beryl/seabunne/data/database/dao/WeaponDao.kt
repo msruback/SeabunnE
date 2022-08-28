@@ -2,7 +2,7 @@ package com.beryl.seabunne.data.database.dao
 
 import androidx.room.*
 import com.beryl.seabunne.data.database.entities.userInfo.WeaponEntity
-import com.beryl.seabunne.data.database.entities.userInfo.WeaponWithSpecialAndSub
+import com.beryl.seabunne.data.database.pojos.userInfo.WeaponWithSpecialAndSub
 
 @Dao
 interface WeaponDao {

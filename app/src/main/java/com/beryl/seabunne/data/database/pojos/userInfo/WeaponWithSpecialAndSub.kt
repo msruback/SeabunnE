@@ -1,9 +1,10 @@
-package com.beryl.seabunne.data.database.entities.userInfo
+package com.beryl.seabunne.data.database.pojos.userInfo
 
 import android.content.Context
 import androidx.room.Embedded
 import androidx.room.Relation
 import com.beryl.seabunne.data.database.SplatnetTransformer
+import com.beryl.seabunne.data.database.entities.userInfo.WeaponEntity
 import com.beryl.seabunne.data.splatnet2.userInfo.Weapon
 import com.beryl.seabunne.data.splatnet2.userInfo.entities.Special
 import com.beryl.seabunne.data.splatnet2.userInfo.entities.Sub

@@ -49,7 +49,7 @@ object ImageHandler {
         when (location) {
             "stage" -> Picasso.with(context).load(url).placeholder(R.drawable.stage_1)
                 .resize(1280, 720).into(target)
-            else -> Picasso.with(context).load(url).into(target)
+            else -> Picasso.with(context).load(url).placeholder(R.drawable.stage_1).into(target)
         }
     }
 }

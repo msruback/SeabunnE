@@ -22,6 +22,8 @@ class TimeRangeTextView(context: Context, attrs: AttributeSet? = null) :
             formatText()
         }
 
+    var includeDate: Boolean = false
+
     init {
         context.theme.obtainStyledAttributes(
             attrs,
@@ -31,7 +33,7 @@ class TimeRangeTextView(context: Context, attrs: AttributeSet? = null) :
             try {
                 start = getInt(R.styleable.TimeRangeTextView_start, -1).toLong()
                 end = getInt(R.styleable.TimeRangeTextView_end, -1).toLong()
-
+                includeDate = getBoolean(R.styleable.TimeRangeTextView_includeDate, false)
                 formatText()
             } finally {
                 recycle()
@@ -40,10 +42,15 @@ class TimeRangeTextView(context: Context, attrs: AttributeSet? = null) :
     }
 
     private fun formatText() {
-        val sdf = SimpleDateFormat("h:mm a", Locale.US)
+        val sdf = if (includeDate) {
+            SimpleDateFormat("EEE h:mm a", Locale.getDefault())
+        } else {
+            SimpleDateFormat("h:mm a", Locale.getDefault())
+        }
         val startText = sdf.format(Date(start * 1000))
         val endText = sdf.format(Date(end * 1000))
 
         "$startText - $endText".also { text = it }
+        "$startText to $endText".also { contentDescription = it }
     }
 }

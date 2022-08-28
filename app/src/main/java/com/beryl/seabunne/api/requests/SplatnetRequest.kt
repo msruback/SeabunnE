@@ -1,8 +1,9 @@
 package com.beryl.seabunne.api.requests
 
 import com.beryl.seabunne.api.Splatnet
-import com.beryl.seabunne.api.exceptions.SplatnetMaintenanceException
-import com.beryl.seabunne.api.exceptions.SplatnetUnauthorizedException
+import com.beryl.seabunne.api.SplatnetFailedConnectionException
+import com.beryl.seabunne.api.SplatnetMaintenanceException
+import com.beryl.seabunne.api.SplatnetUnauthorizedException
 import retrofit2.Response
 
 abstract class SplatnetRequest<T> {
@@ -26,13 +27,19 @@ abstract class SplatnetRequest<T> {
 
     suspend fun run() {
         if (shouldUpdate()) {
-            val response = call()
-            if (response.isSuccessful) {
-                manageResponse(response)
-            } else if (response.code() == 200) {
-                throw SplatnetMaintenanceException(name)
-            } else {
-                throw SplatnetUnauthorizedException(name)
+            var response: Response<T>? = null
+            try {
+                response = call()
+            } finally {
+                if (response != null && response.isSuccessful) {
+                    manageResponse(response)
+                } else if (response != null && response.code() == 200) {
+                    throw SplatnetMaintenanceException(name)
+                } else if (response != null && response.code() == 403) {
+                    throw SplatnetUnauthorizedException(name)
+                } else {
+                    throw SplatnetFailedConnectionException(name)
+                }
             }
         }
     }

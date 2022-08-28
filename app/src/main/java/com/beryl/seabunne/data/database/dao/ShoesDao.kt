@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
 import com.beryl.seabunne.data.database.entities.userInfo.Shoes
-import com.beryl.seabunne.data.database.entities.userInfo.ShoesWithBrand
+import com.beryl.seabunne.data.database.pojos.userInfo.ShoesWithBrand
 
 @Dao
 interface ShoesDao {

@@ -9,7 +9,7 @@ import com.beryl.seabunne.data.seabun.Modes
 import com.beryl.seabunne.data.splatnet2.battles.TimePeriod
 import com.beryl.seabunne.databinding.ItemCompetitiveBinding
 import com.beryl.seabunne.databinding.ItemRegularBinding
-import com.beryl.seabunne.ui.adapter.viewHolders.TimePeriodViewHolder
+import com.beryl.seabunne.ui.viewHolders.TimePeriodViewHolder
 
 class TimePeriodAdapter(
     val context: Context, private val schedule: List<TimePeriod>,

@@ -3,7 +3,7 @@ package com.beryl.seabunne.data.database.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.beryl.seabunne.data.database.entities.salmonRun.SalmonRunWeapons
+import com.beryl.seabunne.data.database.entities.salmonRun.SalmonRunWeaponEntity
 
 @Dao
 interface SalmonRunWeaponsDao {
@@ -12,6 +12,6 @@ interface SalmonRunWeaponsDao {
     fun count(): Int
 
     @Insert
-    fun insertAll(vararg salmonRunWeapons: SalmonRunWeapons)
+    fun insertAll(vararg salmonRunWeapons: SalmonRunWeaponEntity)
 
 }

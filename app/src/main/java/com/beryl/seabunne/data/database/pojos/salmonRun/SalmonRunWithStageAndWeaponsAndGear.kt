@@ -1,11 +1,18 @@
-package com.beryl.seabunne.data.database.entities.salmonRun
+package com.beryl.seabunne.data.database.pojos.salmonRun
 
 import android.content.Context
 import androidx.room.Embedded
-import androidx.room.Junction
 import androidx.room.Relation
 import com.beryl.seabunne.data.database.SplatnetTransformer
-import com.beryl.seabunne.data.database.entities.userInfo.*
+import com.beryl.seabunne.data.database.entities.salmonRun.SalmonRunEntity
+import com.beryl.seabunne.data.database.entities.salmonRun.SalmonRunStageEntity
+import com.beryl.seabunne.data.database.entities.salmonRun.SalmonRunWeaponEntity
+import com.beryl.seabunne.data.database.entities.userInfo.Clothes
+import com.beryl.seabunne.data.database.entities.userInfo.Headgear
+import com.beryl.seabunne.data.database.entities.userInfo.Shoes
+import com.beryl.seabunne.data.database.pojos.userInfo.ClothesWithBrand
+import com.beryl.seabunne.data.database.pojos.userInfo.HeadgearWithBrand
+import com.beryl.seabunne.data.database.pojos.userInfo.ShoesWithBrand
 import com.beryl.seabunne.data.splatnet2.salmonRun.SalmonRun
 import com.beryl.seabunne.data.splatnet2.salmonRun.SalmonRunStage
 import com.beryl.seabunne.data.splatnet2.salmonRun.SalmonRunWeapon
@@ -19,16 +26,11 @@ data class SalmonRunWithStageAndWeaponsAndGear(
         entityColumn = "Id"
     ) val salmonRunStage: SalmonRunStageEntity?,
     @Relation(
-        entity = WeaponEntity::class,
+        entity = SalmonRunWeaponEntity::class,
         parentColumn = "StartTime",
-        entityColumn = "Id",
-        associateBy = Junction(
-            value = SalmonRunWeapons::class,
-            parentColumn = "SalmonRunId",
-            entityColumn = "WeaponId"
-        )
+        entityColumn = "SalmonRunId"
     )
-    val weapons: List<WeaponEntity>?,
+    val weapons: List<SalmonRunWeaponPojo>?,
     @Relation(
         entity = Headgear::class,
         parentColumn = "HeadgearId",
@@ -53,12 +55,12 @@ data class SalmonRunWithStageAndWeaponsAndGear(
 
         val stage: SalmonRunStage? = salmonRunStage?.toSplatnet()
 
-        val availableWeapons: List<SalmonRunWeapon>? = if (weapons != null) {
+        val availableWeapons: List<SalmonRunWeapon>? = if (weapons?.size == 4) {
             listOf(
-                weapons[0].toSplatnet().toSalmonRunWeapon(),
-                weapons[1].toSplatnet().toSalmonRunWeapon(),
-                weapons[2].toSplatnet().toSalmonRunWeapon(),
-                weapons[3].toSplatnet().toSalmonRunWeapon()
+                weapons[0].toSplatnet(),
+                weapons[1].toSplatnet(),
+                weapons[2].toSplatnet(),
+                weapons[3].toSplatnet()
             )
         } else {
             null

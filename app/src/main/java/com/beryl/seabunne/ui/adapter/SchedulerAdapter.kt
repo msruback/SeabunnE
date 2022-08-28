@@ -6,17 +6,21 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.beryl.seabunne.data.seabun.Modes
 import com.beryl.seabunne.data.splatnet2.battles.TimePeriod
+import com.beryl.seabunne.data.splatnet2.salmonRun.SalmonRun
 import com.beryl.seabunne.databinding.CardRegularBinding
-import com.beryl.seabunne.ui.adapter.viewHolders.BattleScheduleCardViewHolder
+import com.beryl.seabunne.ui.viewHolders.BattleScheduleCardViewHolder
+import com.beryl.seabunne.ui.viewHolders.salmonRun.SalmonRunScheduleCardViewHolder
 
 class SchedulerAdapter(private val context: Context) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var rotation: MutableList<String> = mutableListOf()
     private val inflater: LayoutInflater = LayoutInflater.from(context)
+
     private var regularList: List<TimePeriod> = listOf()
     private var gachiList: List<TimePeriod> = listOf()
     private var leagueList: List<TimePeriod> = listOf()
+    private var salmonRunList: List<SalmonRun> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -35,6 +39,10 @@ class SchedulerAdapter(private val context: Context) :
                 Modes.league,
                 CardRegularBinding.inflate(inflater, parent, false)
             )
+            4 -> SalmonRunScheduleCardViewHolder(
+                context,
+                CardRegularBinding.inflate(inflater, parent, false)
+            )
             else -> BattleScheduleCardViewHolder(
                 context,
                 Modes.regular,
@@ -48,6 +56,7 @@ class SchedulerAdapter(private val context: Context) :
             0 -> (holder as BattleScheduleCardViewHolder).bind(regularList)
             1 -> (holder as BattleScheduleCardViewHolder).bind(gachiList)
             2 -> (holder as BattleScheduleCardViewHolder).bind(leagueList)
+            4 -> (holder as SalmonRunScheduleCardViewHolder).bind(salmonRunList)
         }
     }
 
@@ -100,6 +109,24 @@ class SchedulerAdapter(private val context: Context) :
                 index = rotation.indexOf("regular") + 1
             }
             rotation.add(index, "league")
+            notifyItemInserted(index)
+        }
+    }
+
+    fun updateSalmonRunList(salmonRunList: List<SalmonRun>) {
+        this.salmonRunList = salmonRunList
+        if (rotation.contains("salmon")) {
+            notifyItemChanged(rotation.indexOf("salmon"))
+        } else {
+            var index = 0
+            if (rotation.contains("league")) {
+                index = rotation.indexOf("league") + 1
+            } else if (rotation.contains("ranked")) {
+                index = rotation.indexOf("ranked") + 1
+            } else if (rotation.contains("regular")) {
+                index = rotation.indexOf("regular") + 1
+            }
+            rotation.add(index, "salmon")
             notifyItemInserted(index)
         }
     }

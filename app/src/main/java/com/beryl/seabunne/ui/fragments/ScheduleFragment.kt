@@ -33,19 +33,24 @@ class ScheduleFragment : Fragment() {
         schedulesViewModel.regularSchedule.observe(
             viewLifecycleOwner
         ) { (schedules.adapter as SchedulerAdapter).updateRegularList(it) }
+
         schedulesViewModel.gachiSchedule.observe(
             viewLifecycleOwner
         ) { (schedules.adapter as SchedulerAdapter).updateGachiList(it) }
+
         schedulesViewModel.leagueSchedule.observe(
             viewLifecycleOwner
         ) { (schedules.adapter as SchedulerAdapter).updateLeagueList(it) }
+
+        schedulesViewModel.salmonRunSchedule.observe(
+            viewLifecycleOwner
+        ) { (schedules.adapter as SchedulerAdapter).updateSalmonRunList(it) }
 
         return rootView
     }
 
     companion object {
         @JvmStatic
-        fun newInstance() =
-            ScheduleFragment()
+        fun newInstance() = ScheduleFragment()
     }
 }

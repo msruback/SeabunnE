@@ -7,7 +7,8 @@ import androidx.room.Index
 import com.beryl.seabunne.data.database.entities.userInfo.WeaponEntity
 
 @Entity(
-    primaryKeys = ["SalmonRunId", "WeaponId"],
+    tableName = "SalmonRunWeapons",
+    primaryKeys = ["SalmonRunId", "Position"],
     indices = [Index(value = ["WeaponId"], unique = false)],
     foreignKeys = [
         ForeignKey(
@@ -23,7 +24,9 @@ import com.beryl.seabunne.data.database.entities.userInfo.WeaponEntity
         )
     ]
 )
-data class SalmonRunWeapons(
+data class SalmonRunWeaponEntity(
     @ColumnInfo(name = "SalmonRunId") val salmonRunId: Long,
-    @ColumnInfo(name = "WeaponId") val weaponId: Int
+    @ColumnInfo(name = "Position") val position: Int,
+    @ColumnInfo(name = "WeaponType") val weaponType: String,
+    @ColumnInfo(name = "WeaponId") val weaponId: Int? = null
 )

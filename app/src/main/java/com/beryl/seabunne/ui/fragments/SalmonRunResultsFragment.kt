@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import com.beryl.seabunne.R
 
 
-class SalmonRunListFragment : Fragment() {
+class SalmonRunResultsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +27,7 @@ class SalmonRunListFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance() =
-            SalmonRunListFragment().apply {
+            SalmonRunResultsFragment().apply {
                 arguments = Bundle().apply {}
             }
     }

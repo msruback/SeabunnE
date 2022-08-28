@@ -1,4 +1,4 @@
-package com.beryl.seabunne.ui.adapter.viewHolders
+package com.beryl.seabunne.ui.viewHolders
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView

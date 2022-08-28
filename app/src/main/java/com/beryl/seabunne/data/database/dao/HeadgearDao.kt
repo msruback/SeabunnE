@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
 import com.beryl.seabunne.data.database.entities.userInfo.Headgear
-import com.beryl.seabunne.data.database.entities.userInfo.HeadgearWithBrand
+import com.beryl.seabunne.data.database.pojos.userInfo.HeadgearWithBrand
 
 @Dao
 interface HeadgearDao {

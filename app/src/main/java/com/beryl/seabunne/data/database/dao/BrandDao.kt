@@ -2,7 +2,7 @@ package com.beryl.seabunne.data.database.dao
 
 import androidx.room.*
 import com.beryl.seabunne.data.database.entities.userInfo.BrandEntity
-import com.beryl.seabunne.data.database.entities.userInfo.BrandWithSkill
+import com.beryl.seabunne.data.database.pojos.userInfo.BrandWithSkill
 
 @Dao
 interface BrandDao {

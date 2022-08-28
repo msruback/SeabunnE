@@ -24,8 +24,8 @@ data class BrandEntity(
     @PrimaryKey @ColumnInfo(name = "Id") val id: Int,
     @ColumnInfo(name = "Name") val name: String,
     @ColumnInfo(name = "Image") val image: String,
-    @ColumnInfo(name = "SkillId") val skill: Int
+    @ColumnInfo(name = "SkillId") val skill: Int?
 ) {
 
-    fun toSplatnet(skill: Skill): Brand = Brand(id, name, image, skill)
+    fun toSplatnet(skill: Skill?): Brand = Brand(id, name, image, skill)
 }

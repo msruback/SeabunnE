@@ -9,7 +9,7 @@ import com.beryl.seabunne.data.database.entities.battles.TimePeriodEntity
 import com.beryl.seabunne.data.database.entities.battles.TimePeriodStages
 import com.beryl.seabunne.data.database.entities.salmonRun.SalmonRunEntity
 import com.beryl.seabunne.data.database.entities.salmonRun.SalmonRunStageEntity
-import com.beryl.seabunne.data.database.entities.salmonRun.SalmonRunWeapons
+import com.beryl.seabunne.data.database.entities.salmonRun.SalmonRunWeaponEntity
 import com.beryl.seabunne.data.database.entities.userInfo.*
 import com.beryl.seabunne.data.splatnet2.battles.entities.Stage
 import com.beryl.seabunne.data.splatnet2.userInfo.entities.Skill
@@ -18,7 +18,7 @@ import com.beryl.seabunne.data.splatnet2.userInfo.entities.Sub
 
 @Database(
     entities = [BrandEntity::class, Clothes::class, Headgear::class, SalmonRunEntity::class,
-        SalmonRunStageEntity::class, SalmonRunWeapons::class, Shoes::class, Skill::class,
+        SalmonRunStageEntity::class, SalmonRunWeaponEntity::class, Shoes::class, Skill::class,
         Special::class, Stage::class, Sub::class, TimePeriodEntity::class, TimePeriodStages::class,
         WeaponEntity::class],
     version = 1,

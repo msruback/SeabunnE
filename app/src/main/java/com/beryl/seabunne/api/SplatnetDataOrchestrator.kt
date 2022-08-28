@@ -1,7 +1,5 @@
 package com.beryl.seabunne.api
 
-import com.beryl.seabunne.api.exceptions.SplatnetMaintenanceException
-import com.beryl.seabunne.api.exceptions.SplatnetUnauthorizedException
 import com.beryl.seabunne.api.requests.SplatnetRequest
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.Dispatchers
@@ -47,6 +45,9 @@ object SplatnetDataOrchestrator {
                 e.printStackTrace()
                 return@withContext OrchestratorResponse.Error(e)
             } catch (e: SplatnetMaintenanceException) {
+                e.printStackTrace()
+                return@withContext OrchestratorResponse.Error(e)
+            } catch (e: SplatnetFailedConnectionException) {
                 e.printStackTrace()
                 return@withContext OrchestratorResponse.Error(e)
             } catch (e: IOException) {

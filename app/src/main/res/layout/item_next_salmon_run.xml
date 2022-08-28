@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="Shift"
+            type="com.beryl.seabunne.data.splatnet2.salmonRun.SalmonRun" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:background="@color/salmonTertiary">
+
+        <com.beryl.seabunne.ui.views.TimeRangeTextView
+            android:id="@+id/time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="2dp"
+            android:gravity="center"
+            android:textColor="@color/offWhite"
+            android:textSize="20sp"
+            app:end="@{Shift.end}"
+            app:fontType="subtitle"
+            app:includeDate="true"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:start="@{Shift.start}" />
+
+        <com.beryl.seabunne.ui.views.StageImageView
+            android:id="@+id/stageImage"
+            android:layout_width="0dp"
+            android:layout_height="215dp"
+            android:foreground="@drawable/repeat_scanlines"
+            android:scaleType="centerCrop"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/weaponLayout"
+            app:layout_constraintTop_toBottomOf="@id/time"
+            app:stageName="@{Shift.stage.name}"
+            app:stageUrl="@{Shift.stage.image}"
+            tools:src="@drawable/stage_salmon" />
+
+        <com.beryl.seabunne.ui.views.FontTextView
+            android:id="@+id/stageName"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#80343434"
+            android:contentDescription=""
+            android:gravity="center"
+            android:padding="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@{Shift.stage.name}"
+            android:textColor="@color/offWhite"
+            android:textSize="22sp"
+            app:fontType="subtitle"
+            app:layout_constraintBottom_toBottomOf="@+id/stageImage"
+            app:layout_constraintLeft_toLeftOf="@+id/stageImage"
+            app:layout_constraintRight_toRightOf="@+id/stageImage"
+            app:layout_constraintTop_toTopOf="@+id/stageImage"
+            tools:text="Lost Outpost" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/weaponLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:foreground="@drawable/repeat_scanlines"
+            android:foregroundTint="@color/salmonTertiary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/time">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/gachiPrimary"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.beryl.seabunne.ui.views.SalmonWeaponImageView
+                    android:id="@+id/weapon1"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_margin="5dp"
+                    android:contentDescription="@{`With Weapons ` + Shift.weapons.get(0).weapon.name}"
+                    app:layout_constraintBottom_toTopOf="@id/weapon2"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:weaponName="@{Shift.weapons.get(0).weapon.name}"
+                    app:weaponType="@{Shift.weapons.get(0).weaponType}"
+                    app:weaponUrl="@{Shift.weapons.get(0).weapon.image}"
+                    tools:src="@drawable/weapon_sloshing_machine" />
+
+                <com.beryl.seabunne.ui.views.SalmonWeaponImageView
+                    android:id="@+id/weapon2"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_margin="5dp"
+                    android:contentDescription="@{Shift.weapons.get(1).weapon.name}"
+                    app:layout_constraintBottom_toTopOf="@id/weapon3"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/weapon1"
+                    app:weaponName="@{Shift.weapons.get(1).weapon.name}"
+                    app:weaponType="@{Shift.weapons.get(1).weaponType}"
+                    app:weaponUrl="@{Shift.weapons.get(1).weapon.image}"
+                    tools:src="@drawable/weapon_sloshing_machine" />
+
+                <com.beryl.seabunne.ui.views.SalmonWeaponImageView
+                    android:id="@+id/weapon3"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_margin="5dp"
+                    android:contentDescription="@{Shift.weapons.get(2).weapon.name}"
+                    app:layout_constraintBottom_toTopOf="@id/weapon4"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/weapon2"
+                    app:weaponName="@{Shift.weapons.get(2).weapon.name}"
+                    app:weaponType="@{Shift.weapons.get(2).weaponType}"
+                    app:weaponUrl="@{Shift.weapons.get(2).weapon.image}"
+                    tools:src="@drawable/weapon_sloshing_machine" />
+
+                <com.beryl.seabunne.ui.views.SalmonWeaponImageView
+                    android:id="@+id/weapon4"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_margin="5dp"
+                    android:contentDescription="@{`and ` + Shift.weapons.get(3).weapon.name}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/weapon3"
+                    app:weaponName="@{Shift.weapons.get(3).weapon.name}"
+                    app:weaponType="@{Shift.weapons.get(3).weaponType}"
+                    app:weaponUrl="@{Shift.weapons.get(3).weapon.image}"
+                    tools:src="@drawable/weapon_sloshing_machine" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
