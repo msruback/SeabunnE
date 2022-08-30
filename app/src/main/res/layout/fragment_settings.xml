@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        tools:background="@android:color/black"
+        tools:context=".ui.fragments.SettingsFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_card_outline"
+            android:backgroundTint="@color/colorAccent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:padding="20dp">
+
+            <com.beryl.seabunne.ui.views.FontTextView
+                android:id="@+id/authSectionHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/User_Authentication"
+                android:textColor="@color/offWhite"
+                android:textSize="30sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.beryl.seabunne.ui.views.FontTextView
+                android:id="@+id/cookie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:text="@string/Update_Cookie"
+                android:textSize="20sp"
+                android:textColor="@color/offWhite"
+                app:layout_constraintTop_toBottomOf="@id/authSectionHeader"
+                app:layout_constraintStart_toStartOf="parent"
+                app:fontType="subtitle" />
+
+            <com.beryl.seabunne.ui.views.FontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:text="@string/Provide_User_Id"
+                android:textSize="20sp"
+                android:textColor="@color/offWhite"
+                app:layout_constraintTop_toBottomOf="@id/cookie"
+                app:layout_constraintStart_toStartOf="parent"
+                app:fontType="subtitle" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

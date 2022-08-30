@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">SeabunnE</string>
+    <string name="app_version">v0.3</string>
+    <string name="splat_version">For Splatoon 2</string>
+
+    // Fragment Names
+    <string name="Schedules">Schedules</string>
+    <string name="Settings">Settings</string>
 
     //Modes
     <string name="turfWarShort">TW</string>
@@ -40,4 +46,16 @@
     <string name="league">League</string>
     <string name="splatfest">Splatfest</string>
     <string name="salmonrun">Salmon Run</string>
+
+    //Settings Strings
+    <string name="User_Authentication">User Authentication</string>
+    <string name="Update_Cookie">Update Cookie</string>
+    <string name="Provide_User_Id">Provide User ID</string>
+
+    // Dialog Instructions
+    <string name="Cookie_Instructions">Your current Splatnet 2 IKSM Token is displayed below. If you are getting a User Authentication Error, you must update this token. Refer to the readme for instructions on how to obtain this token.</string>
+    <string name="User_Id_Instructions">Your unique Splatnet 2 User Id is displayed below. SeabunnE automatically grabs your User ID, but if you can update it anyway if you want</string>
+    <string name="preference_file_key">com.beryl.seabunne.preference_key</string>
+    <string name="close">close</string>
+    <string name="open">open</string>
 </resources>

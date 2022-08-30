@@ -8,6 +8,11 @@
     <fragment
         android:id="@+id/scheduleFragment"
         android:name="com.beryl.seabunne.ui.fragments.ScheduleFragment"
-        android:label="fragment_schedule"
+        android:label="@string/Schedules"
         tools:layout="@layout/fragment_schedule" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.beryl.seabunne.ui.fragments.SettingsFragment"
+        android:label="@string/Settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>

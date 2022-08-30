@@ -27,7 +27,6 @@ class ScheduleFragment : Fragment() {
         schedules.adapter = SchedulerAdapter(requireContext())
         schedules.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
 
-
         schedulesViewModel.refresh()
 
         schedulesViewModel.regularSchedule.observe(
@@ -47,10 +46,5 @@ class ScheduleFragment : Fragment() {
         ) { (schedules.adapter as SchedulerAdapter).updateSalmonRunList(it) }
 
         return rootView
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance() = ScheduleFragment()
     }
 }
