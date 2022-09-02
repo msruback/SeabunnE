@@ -36,7 +36,7 @@ class SalmonRunScheduleRequest(
 
         if (getGear) {
             MainScope().launch {
-                SplatnetDataOrchestrator.requestData(TimelineRequest(database, context))
+                SplatnetDataOrchestrator.requestData(context, TimelineRequest(database, context))
             }
         }
     }

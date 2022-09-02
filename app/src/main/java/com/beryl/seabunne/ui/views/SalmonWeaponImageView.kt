@@ -16,7 +16,7 @@ class SalmonWeaponImageView(context: Context, attrs: AttributeSet? = null) :
             R.styleable.SalmonWeaponImageView,
             0, 0
         ).apply {
-            val type = getString(R.styleable.FontTextView_fontType)
+            val type = getString(R.styleable.SalmonWeaponImageView_weaponType)
             if (type != null) {
                 weaponType = type
             }

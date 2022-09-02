@@ -42,18 +42,6 @@
                 app:layout_constraintTop_toBottomOf="@id/authSectionHeader"
                 app:layout_constraintStart_toStartOf="parent"
                 app:fontType="subtitle" />
-
-            <com.beryl.seabunne.ui.views.FontTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="10dp"
-                android:text="@string/Provide_User_Id"
-                android:textSize="20sp"
-                android:textColor="@color/offWhite"
-                app:layout_constraintTop_toBottomOf="@id/cookie"
-                app:layout_constraintStart_toStartOf="parent"
-                app:fontType="subtitle" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

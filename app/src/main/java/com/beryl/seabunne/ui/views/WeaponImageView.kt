@@ -12,7 +12,7 @@ open class WeaponImageView(context: Context, attrs: AttributeSet? = null) :
 
     var weaponName: String = ""
         set(value) {
-            field = value.lowercase().replace(" ", "_")
+            field = value.lowercase().replace(" ", "_") + ".jpeg"
             loadImage()
         }
 

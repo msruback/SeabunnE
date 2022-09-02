@@ -52,10 +52,14 @@
     <string name="Update_Cookie">Update Cookie</string>
     <string name="Provide_User_Id">Provide User ID</string>
 
-    // Dialog Instructions
+    // Dialog Instructions and strings
     <string name="Cookie_Instructions">Your current Splatnet 2 IKSM Token is displayed below. If you are getting a User Authentication Error, you must update this token. Refer to the readme for instructions on how to obtain this token.</string>
-    <string name="User_Id_Instructions">Your unique Splatnet 2 User Id is displayed below. SeabunnE automatically grabs your User ID, but if you can update it anyway if you want</string>
+    <string name="iksm">iksm =</string>
+    <string name="update">Update</string>
+    <string name="cancel">Cancel</string>
+    <string name="auth_failure">SeabunnE was unable to connect to Splatnet 2 due to an Authentication Error. Please update your cookie in Settings.</string>
+    <string name="maintainence_failure">SeabunnE was unable to connect to Splatnet 2 as the service is undergoing maintenance. Retry in a little bit.</string>
+    <string name="connection_failure">SeabunnE wad unable to find the Splatnet 2 servers. Please check your internet connection.</string>
+
     <string name="preference_file_key">com.beryl.seabunne.preference_key</string>
-    <string name="close">close</string>
-    <string name="open">open</string>
 </resources>

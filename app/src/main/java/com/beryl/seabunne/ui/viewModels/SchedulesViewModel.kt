@@ -1,9 +1,9 @@
 package com.beryl.seabunne.ui.viewModels
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
+import com.beryl.seabunne.api.OrchestratorResponse
 import com.beryl.seabunne.api.SplatnetDataOrchestrator
 import com.beryl.seabunne.api.requests.SalmonRunScheduleRequest
 import com.beryl.seabunne.api.requests.SchedulesRequest
@@ -12,10 +12,8 @@ import com.beryl.seabunne.data.database.SplatnetDatabase
 import com.beryl.seabunne.data.database.listMap
 import com.beryl.seabunne.data.splatnet2.battles.TimePeriod
 import com.beryl.seabunne.data.splatnet2.salmonRun.SalmonRun
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
 
-class SchedulesViewModel(application: Application) : AndroidViewModel(application) {
+class SchedulesViewModel(application: Application) : SplatnetViewModel(application) {
 
     private val database = SplatnetDatabase.getDatabase(application.applicationContext)
 
@@ -35,18 +33,16 @@ class SchedulesViewModel(application: Application) : AndroidViewModel(applicatio
     val salmonRunSchedule: LiveData<List<SalmonRun>> =
         Transformations.map(salmonRun) { listMap(it, application.applicationContext) }
 
-    //Exposed Functions
 
-    fun refresh() {
-        MainScope().launch {
-            SplatnetDataOrchestrator.requestData(
-                SchedulesRequest(database),
-                SalmonRunScheduleRequest(
-                    database,
-                    getApplication<Application>().applicationContext
-                ),
-                TimelineRequest(database, getApplication<Application>().applicationContext)
-            )
-        }
-    }
+    override suspend fun getData(): OrchestratorResponse<Int> =
+        SplatnetDataOrchestrator.requestData(
+            getApplication<Application>().applicationContext,
+            SchedulesRequest(database),
+            SalmonRunScheduleRequest(
+                database,
+                getApplication<Application>().applicationContext
+            ),
+            TimelineRequest(database, getApplication<Application>().applicationContext)
+        )
+
 }

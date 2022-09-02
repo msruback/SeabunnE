@@ -18,7 +18,7 @@ class StageImageView(context: Context, attrs: AttributeSet? = null) :
 
     var stageName: String = ""
         set(value) {
-            field = value.lowercase().replace(" ", "_")
+            field = value.lowercase().replace(" ", "_") + ".jpeg"
             loadImage()
         }
 

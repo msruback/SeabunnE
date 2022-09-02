@@ -14,5 +14,27 @@
         android:id="@+id/settingsFragment"
         android:name="com.beryl.seabunne.ui.fragments.SettingsFragment"
         android:label="@string/Settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_settingsFragment_to_cookieDialogFragment"
+            app:destination="@id/cookieDialogFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/cookieDialogFragment"
+        android:name="com.beryl.seabunne.ui.dialog.CookieDialogFragment"
+        android:label="CookieDialogFragment"
+        tools:layout="@layout/dialog_cookie" />
+    <action
+        android:id="@+id/action_global_alertDialogFragment"
+        app:destination="@id/alertDialogFragment" />
+    <dialog
+        android:id="@+id/alertDialogFragment"
+        android:name="com.beryl.seabunne.ui.dialog.AlertDialogFragment"
+        android:label="AlertDialogFragment"
+        tools:layout="@layout/dialog_alert">
+        <argument
+            android:name="alertMessage"
+            app:argType="string"
+            android:defaultValue="" />
+    </dialog>
 </navigation>

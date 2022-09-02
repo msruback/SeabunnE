@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="FontTextView">
+
+    <declare-styleable name="FontView">
         <attr name="fontType" format="enum">
             <enum name="title" value="0" />
             <enum name="subtitle" value="1" />

@@ -1,5 +1,7 @@
 package com.beryl.seabunne.api
 
+import android.content.Context
+import com.beryl.seabunne.R
 import com.beryl.seabunne.api.requests.SplatnetRequest
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.Dispatchers
@@ -13,7 +15,10 @@ import java.util.concurrent.TimeUnit
 
 object SplatnetDataOrchestrator {
 
-    suspend fun requestData(vararg requests: SplatnetRequest<*>): OrchestratorResponse<Int> =
+    suspend fun requestData(
+        context: Context,
+        vararg requests: SplatnetRequest<*>
+    ): OrchestratorResponse<Int> =
         withContext(Dispatchers.IO) {
             try {
                 val gson = GsonBuilder().create()
@@ -31,13 +36,16 @@ object SplatnetDataOrchestrator {
 
                 val splatnet = retrofit.create(Splatnet::class.java)
 
-                //Grab cookie and uniqueId
+                val sharedPreferences = context.getSharedPreferences(
+                    context.getString(R.string.preference_file_key),
+                    Context.MODE_PRIVATE
+                )
 
                 requests.forEach {
                     it.setupRequest(
                         splatnet,
-                        "",
-                        ""
+                        sharedPreferences.getString("cookie", "")!!,
+                        sharedPreferences.getString("unique_id", "")!!
                     )
                     it.run()
                 }

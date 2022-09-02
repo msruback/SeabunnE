@@ -12,7 +12,7 @@ class GearImageView(context: Context, attrs: AttributeSet? = null) :
 
     var gearName: String = ""
         set(value) {
-            field = value.lowercase().replace(" ", "_")
+            field = value.lowercase().replace(" ", "_") + ".jpeg"
             loadImage()
         }
 

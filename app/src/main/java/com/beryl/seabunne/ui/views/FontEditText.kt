@@ -3,12 +3,11 @@ package com.beryl.seabunne.ui.views
 import android.content.Context
 import android.graphics.Typeface
 import android.util.AttributeSet
-import androidx.appcompat.widget.AppCompatTextView
+import androidx.appcompat.widget.AppCompatEditText
 import com.beryl.seabunne.R
 
-open class FontTextView(context: Context, attrs: AttributeSet? = null) :
-    AppCompatTextView(context, attrs) {
-
+class FontEditText(context: Context, attrs: AttributeSet? = null) :
+    AppCompatEditText(context, attrs) {
     init {
         context.theme.obtainStyledAttributes(
             attrs,
